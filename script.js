@@ -19,14 +19,14 @@ function click() {
     save();
 }
 function upgrade() {
-    if (score - 100 <= 0) return;
+    if (score - 100 < 0) return;
     score -= 100;
     score_incriment++;
     counter.innerHTML = score.toString();
     save();
 }
 function buy_auto() {
-    if (score - 1000 <= 0) return;
+    if (score - 1000 < 0) return;
     score -= 1000;
     auto_amount++;
     counter.innerHTML = score.toString();
@@ -34,11 +34,11 @@ function buy_auto() {
     save();
 }
 function auto() {
+    setTimeout("auto()", 1000 / auto_amount / score_incriment);
     if (auto_amount <= 0) return;
     score++;
     counter.innerHTML = score.toString();
     save();
-    setTimeout("auto()", 1000 / auto_amount / score_incriment);
 }
 
 function save() {
@@ -48,11 +48,10 @@ function save() {
 }
 function load() {
     var counter = document.getElementById("counter");
-    var score = localStorage.getItem("score");
-    if (score > 0) {
-        score = score;
-        score_incriment = localStorage.getItem("incriment");
-        auto_amount = localStorage.getItem("auto");
+    if (localStorage.getItem("score")) {
+        score = +localStorage.getItem("score");
+        score_incriment = +localStorage.getItem("incriment");
+        auto_amount = +localStorage.getItem("auto");
         counter.innerHTML = score;
     }
     else {
@@ -64,5 +63,5 @@ function load() {
 }
 function reset() {
     localStorage.clear();
-    load();
+    location.reload();
 }
